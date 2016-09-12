@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Net.Security;
 
 namespace Shooter
 {
@@ -16,7 +17,7 @@ namespace Shooter
 		[SerializeField] protected BasicProjectile m_Projectile;
 		[SerializeField] protected float m_LaunchVelocity = 20f;
 		[SerializeField] [Range(0, 100f)] protected float m_ReloadTime;
-		protected bool m_CanShoot = false;
+		protected bool m_CanShoot = true;
 		protected Timer m_Timer = new Timer();
 		protected int m_NumOfProjectilesOut = 0;
 
@@ -37,7 +38,7 @@ namespace Shooter
 		#endregion
 
 		#region Public Methods
-		public void Fire(Transform target)
+		public virtual void Fire(Transform target)
 		{
 			if (!m_CanShoot)
 			{
@@ -48,15 +49,21 @@ namespace Shooter
 			m_CanShoot = m_ReloadTime == 0f;
 
 			m_Timer.StartTimer(m_ReloadTime, OnReloadCOmplete, true);
-			BasicProjectile projectile = Instantiate(m_Projectile);
-			projectile.transform.position = transform.position;
-			projectile.RegisterObserver(this);
-			projectile.Launch(target, m_LaunchVelocity);
-			ProjectileManager.Instance.AddProjectile(projectile);
+			CreateProjectile(target, transform, Vector3.forward);
 		}
 		#endregion
 
 		#region Protected Methods
+		protected virtual void CreateProjectile(Transform target, Transform startPosition, Vector3 direction)
+		{
+			BasicProjectile projectile = Instantiate(m_Projectile);
+			projectile.transform.eulerAngles = startPosition.eulerAngles;
+			projectile.transform.position = startPosition.position;
+			projectile.RegisterObserver(this);
+			projectile.Launch(target, m_LaunchVelocity, direction);
+			ProjectileManager.Instance.AddProjectile(projectile);
+		}
+
 		protected virtual void OnReloadCOmplete()
 		{
 			m_CanShoot = true;
@@ -87,12 +94,12 @@ namespace Shooter
 			base.OnNotify(subject, args);
 			if (subject is BasicProjectile)
 			{
-				switch((BasicProjectile.eProjectileEvents)args[0])
+				switch((BasicProjectile.eProjectileState)args[0])
 				{
-					case BasicProjectile.eProjectileEvents.DESTROYED:
+					case BasicProjectile.eProjectileState.Destroyed:
 					OnProjectileDestroyed();
 					break;
-					case BasicProjectile.eProjectileEvents.LAUNCH:
+					case BasicProjectile.eProjectileState.Launching:
 					OnProjectileLaunched();
 					break;
 				}

@@ -49,12 +49,12 @@ namespace Shooter
 			base.OnNotify(subject, args);
 			if (subject is BasicProjectile)
 			{
-				switch((BasicProjectile.eProjectileEvents)args[0])
+				switch((BasicProjectile.eProjectileState)args[0])
 				{
-					case BasicProjectile.eProjectileEvents.DESTROYED:
+					case BasicProjectile.eProjectileState.Destroyed:
 					OnProjectileDestroyed(subject as BasicProjectile);
 					break;
-					case BasicProjectile.eProjectileEvents.LAUNCH:
+					case BasicProjectile.eProjectileState.Launching:
 					OnProjectileLaunched(subject as BasicProjectile);
 					break;
 				}
