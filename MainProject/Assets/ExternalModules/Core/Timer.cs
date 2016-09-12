@@ -13,8 +13,8 @@ public class Timer
 	#region Variables
 	public System.Action OnTimerDone;
 
-	private float m_CurrentTime;
-	private float m_TargetTime;
+	private float m_CurrentTime = -1f;
+	private float m_TargetTime = -1f;
 
 	private bool m_IsTimerPlaying = false;
 	private bool m_ClearActions = false;
@@ -22,6 +22,11 @@ public class Timer
 	public bool IsTimerPlaying
 	{
 		get { return m_IsTimerPlaying; }
+	}
+
+	public float Ratio
+	{
+		get { return m_CurrentTime / m_TargetTime; }
 	}
 
 	#endregion
@@ -62,6 +67,7 @@ public class Timer
 	#region Private Methods
 	private void OnTimerComplete()
 	{
+		m_IsTimerPlaying = false;
 		if (OnTimerDone != null)
 		{
 			System.Action callback = OnTimerDone;
