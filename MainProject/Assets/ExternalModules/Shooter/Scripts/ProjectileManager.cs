@@ -8,6 +8,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Security;
 
 namespace Shooter
 {
@@ -24,6 +25,7 @@ namespace Shooter
 		public void AddProjectile(BasicProjectile projectile)
 		{
 			projectile.gameObject.transform.parent = transform;
+			projectile.RegisterObserver(this);
 			m_Projectiles.Add(projectile);
 		}
 		#endregion
@@ -39,6 +41,7 @@ namespace Shooter
 
 		protected virtual void OnProjectileDestroyed(BasicProjectile projectile)
 		{
+			projectile.RegisterObserver(this);
 			m_Projectiles.Remove(projectile);
 		}
 		#endregion

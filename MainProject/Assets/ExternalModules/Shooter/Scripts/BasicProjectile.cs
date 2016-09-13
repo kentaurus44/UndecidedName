@@ -10,6 +10,7 @@ using System.Collections;
 
 namespace Shooter
 {
+	[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
 	public abstract class BasicProjectile : Subject, IProjectile
 	{
 		#region Variables
@@ -31,7 +32,16 @@ namespace Shooter
 		#region Unity API
 		protected virtual void Update()
 		{
-			Travel();	
+			Travel();
+		}
+
+		protected virtual void OnTriggerEnter(Collider collider)
+		{
+			if (collider.gameObject.GetComponent<ICollidable>() != null)
+			{
+				collider.gameObject.GetComponent<ICollidable>().ApplyEffect(this);
+				ProjectileDestroyed();
+			}
 		}
 		#endregion
 
@@ -54,6 +64,7 @@ namespace Shooter
 		protected virtual void ProjectileDestroyed()
 		{
 			NotifyObservers(eProjectileState.Destroyed);
+			Destroy(gameObject);
 		}
 		#endregion
 
