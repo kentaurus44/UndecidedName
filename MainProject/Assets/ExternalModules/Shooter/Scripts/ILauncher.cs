@@ -13,6 +13,6 @@ namespace Shooter
 {
 	public interface ILauncher
 	{
-		void Fire(Transform target);
+		void Fire(Vector3 target);
 	}
 }

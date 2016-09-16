@@ -8,7 +8,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Missle : Shooter.BasicProjectile 
+public class Missle : CustomBasicProjectile
 {
 	#region Variables
 	[SerializeField] [Range(0f, 1f)] protected float m_LaunchingRatio = 0.1f;
@@ -34,7 +34,7 @@ public class Missle : Shooter.BasicProjectile
 	#endregion
 
 	#region Public Methods
-	public override void Launch(Transform target, float velocity, Vector3 unityDirection)
+	public override void Launch(Vector3 target, float velocity, Vector3 unityDirection)
 	{
 		m_RepositioningTimer.StartTimer(m_MaxSpeedIn);
 		m_InitialVelociy = velocity;
@@ -52,7 +52,7 @@ public class Missle : Shooter.BasicProjectile
 
 	protected virtual void CorrectingAngle()
 	{
-		Vector3 wantedDirection = (m_Target.transform.position - transform.position).normalized;
+		Vector3 wantedDirection = (m_Target - transform.position).normalized;
 		Vector3 direction = transform.right;
 
 		m_UnityDirection += (wantedDirection - direction) * Mathf.Clamp01(m_RepositioningTimer.Ratio);

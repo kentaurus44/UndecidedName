@@ -25,8 +25,14 @@ namespace Shooter
 		}
 
 		protected float m_Velocity = 0;
-		protected Transform m_Target;
+		protected Vector3 m_Target;
 		protected Vector3 m_UnityDirection;
+		protected string m_Identifier = "";
+
+		public string Identifier 
+		{
+			get { return m_Identifier; }
+		}
 		#endregion
 
 		#region Unity API
@@ -46,7 +52,12 @@ namespace Shooter
 		#endregion
 
 		#region Public Methods
-		public virtual void Launch(Transform target, float velocity, Vector3 unityDirection)
+		public virtual void SetIdentifier(string id)
+		{
+			m_Identifier = id;
+		}
+
+		public virtual void Launch(Vector3 target, float velocity, Vector3 unityDirection)
 		{
 			m_Target = target;
 			m_Velocity = velocity;

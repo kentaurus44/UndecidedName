@@ -22,7 +22,10 @@ public class MissileLauncher : Shooter.BasicLauncher
 	#region Public Methods
 	protected virtual void Start()
 	{
-		Fire(m_Target);
+		if (m_Target != null)
+		{
+			Fire(m_Target.position);
+		}
 	}
 	#endregion
 
@@ -30,10 +33,13 @@ public class MissileLauncher : Shooter.BasicLauncher
 	protected override void OnReloadCOmplete()
 	{
 		base.OnReloadCOmplete();
-		Fire(m_Target);
+		if (m_Target != null)
+		{
+			Fire(m_Target.position);
+		}
 	}
 
-	protected override void CreateProjectile(Transform target, Transform startlocation, Vector3 direction)
+	protected override void CreateProjectile(Vector3 target, Transform startlocation, Vector3 direction)
 	{
 		for (int i = 0; i < m_StartLocation.Count; ++i)
 		{

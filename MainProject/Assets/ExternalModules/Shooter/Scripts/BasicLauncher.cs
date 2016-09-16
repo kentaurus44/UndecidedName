@@ -17,6 +17,8 @@ namespace Shooter
 		[SerializeField] protected BasicProjectile m_Projectile;
 		[SerializeField] protected float m_LaunchVelocity = 20f;
 		[SerializeField] [Range(0, 100f)] protected float m_ReloadTime;
+		[SerializeField] protected string m_Identifier;
+
 		protected bool m_CanShoot = true;
 		protected Timer m_Timer = new Timer();
 		protected int m_NumOfProjectilesOut = 0;
@@ -38,7 +40,7 @@ namespace Shooter
 		#endregion
 
 		#region Public Methods
-		public virtual void Fire(Transform target)
+		public virtual void Fire(Vector3 target)
 		{
 			if (!m_CanShoot)
 			{
@@ -54,12 +56,13 @@ namespace Shooter
 		#endregion
 
 		#region Protected Methods
-		protected virtual void CreateProjectile(Transform target, Transform startPosition, Vector3 direction)
+		protected virtual void CreateProjectile(Vector3 target, Transform startPosition, Vector3 direction)
 		{
 			BasicProjectile projectile = Instantiate(m_Projectile);
 			projectile.transform.eulerAngles = startPosition.eulerAngles;
 			projectile.transform.position = startPosition.position;
 			projectile.RegisterObserver(this);
+			projectile.SetIdentifier(m_Identifier);
 			projectile.Launch(target, m_LaunchVelocity, direction);
 			ProjectileManager.Instance.AddProjectile(projectile);
 		}
