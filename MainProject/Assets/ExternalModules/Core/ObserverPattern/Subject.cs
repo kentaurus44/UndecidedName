@@ -28,12 +28,18 @@ public class Subject : MonoBehaviour, ISubject
 	#region Public Methods
 	public virtual void RegisterObserver(IObserver observer)
 	{
-		m_Observers.Add(observer);
+		if (!m_Observers.Contains(observer))
+		{
+			m_Observers.Add(observer);
+		}
 	}
 
 	public virtual void UnregisterObserver(IObserver observer)
 	{
-		m_Observers.Remove(observer);
+		if (m_Observers.Contains(observer))
+		{
+			m_Observers.Remove(observer);
+		}
 	}
 
 	public virtual void NotifyObservers(params object[] args)

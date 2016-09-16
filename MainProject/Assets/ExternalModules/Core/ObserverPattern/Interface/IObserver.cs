@@ -7,5 +7,5 @@
 
 public interface IObserver
 {
-	void OnNotify(ISubject subject, params object[] args);
+	void OnNotify(ISubject subject, object[] args);
 }

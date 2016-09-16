@@ -41,7 +41,7 @@ namespace Shooter
 
 		protected virtual void OnProjectileDestroyed(BasicProjectile projectile)
 		{
-			projectile.RegisterObserver(this);
+			projectile.UnregisterObserver(this);
 			m_Projectiles.Remove(projectile);
 		}
 		#endregion

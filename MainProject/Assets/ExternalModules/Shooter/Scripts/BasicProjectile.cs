@@ -58,7 +58,7 @@ namespace Shooter
 		#region Protected Methods
 		protected virtual void Travel()
 		{
-			transform.position += m_UnityDirection.normalized * m_Velocity * Time.deltaTime;		
+			transform.position += m_UnityDirection.normalized * m_Velocity * Time.deltaTime;
 		}
 
 		protected virtual void ProjectileDestroyed()
