@@ -52,6 +52,11 @@ public class Missle : CustomBasicProjectile
 
 	protected virtual void CorrectingAngle()
 	{
+		if (m_RepositioningTimer.Ratio >= 1f)
+		{
+			return;
+		}
+
 		Vector3 wantedDirection = (m_Target - transform.position).normalized;
 		Vector3 direction = transform.right;
 
