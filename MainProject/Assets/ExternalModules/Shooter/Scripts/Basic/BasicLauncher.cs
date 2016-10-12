@@ -8,10 +8,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Net.Security;
+using System.IO;
 
 namespace Shooter
 {
-	public abstract class BasicLauncher : SubjectObserver, ILauncher
+	public abstract class BasicLauncher : SubjectObserver, ILauncher, IParameters
 	{
 		#region Variables
 		[SerializeField] protected BasicProjectile m_Projectile;
@@ -40,6 +41,14 @@ namespace Shooter
 		#endregion
 
 		#region Public Methods
+		public virtual void LoadParameters(string paramName)
+		{
+			LauncherParameters param = Resources.Load<LauncherParameters>(Path.Combine(ShooterConstants.PATH_TO_LAUCHER_PARAMS, paramName));
+			m_Identifier = paramName;
+			m_LaunchVelocity = param.LaunchVelocity;
+			m_ReloadTime = param.ReloadTime;
+		}
+
 		public virtual void Fire(Vector3 target)
 		{
 			if (!m_CanShoot)

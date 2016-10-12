@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Shooter
 {
-	public class LauncherParameters : ScriptableObject 
+	public partial class LauncherParameters : ScriptableObject 
 	{
 		public BasicProjectile Projectile;
 		public float LaunchVelocity = 0f;

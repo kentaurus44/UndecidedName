@@ -7,11 +7,12 @@
 
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 namespace Shooter
 {
 	[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-	public abstract class BasicProjectile : Subject, IProjectile
+	public abstract class BasicProjectile : Subject, IProjectile, IParameters
 	{
 		#region Variables
 		public enum eProjectileState
@@ -52,6 +53,13 @@ namespace Shooter
 		#endregion
 
 		#region Public Methods
+		public virtual void LoadParameters(string paramName)
+		{
+			ProjectileParameters param = Resources.Load<ProjectileParameters>(Path.Combine(ShooterConstants.PATH_TO_PROJECTILE_PARAMS, paramName));
+			m_Identifier = paramName;
+			m_Velocity = param.Velocity;
+		}
+
 		public virtual void SetIdentifier(string id)
 		{
 			m_Identifier = id;
