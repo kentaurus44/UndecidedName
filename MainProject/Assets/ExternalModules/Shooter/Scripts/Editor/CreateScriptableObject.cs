@@ -6,7 +6,7 @@ namespace Shooter
 {
 	public class MakeScriptableObject 
 	{
-		[MenuItem("Kentaurs/Create/Scriptable Object")]
+		[MenuItem("Kentaurus/Shooter/Create/Scriptable Object")]
 		public static void CreateScriptableObject()
 		{
 			CreateScriptableObjectWindow window = (CreateScriptableObjectWindow)EditorWindow.GetWindow(typeof(CreateScriptableObjectWindow));
