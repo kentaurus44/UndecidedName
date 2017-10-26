@@ -18,8 +18,8 @@ Player:
 - Mechanics Status: Complete
 
 ## Version 1.0
- Trying out Shader stuff for possible project
- Initial testing of how projectiles would be launched
- Initial testing of some editor code to create projectile settings
- Initial testing for Circular controls. 
-  -> From any location you can press on screen and direct a location using angles
+- Trying out Shader stuff for possible project
+- Initial testing of how projectiles would be launched
+- Initial testing of some editor code to create projectile settings
+- Initial testing for Circular controls. 
+  - From any location you can press on screen and direct a location using angles
