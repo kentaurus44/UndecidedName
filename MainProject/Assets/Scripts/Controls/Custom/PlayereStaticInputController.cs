@@ -35,12 +35,25 @@ public class PlayereStaticInputController : StaticInputController
         NORTH_WEST
     }
 
+    [SerializeField] private TempControlManager m_TempVisualManager;
+
     private eDirection m_PreviousDirection;
     private eDirection m_CurrentDirection;
 
     #endregion
 
     #region Unity API
+    protected override void Awake()
+    {
+        base.Awake();
+        RegisterObserver(m_TempVisualManager);
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        UnregisterObserver(m_TempVisualManager);
+    }
     #endregion
 
     #region Public Methods
@@ -85,7 +98,6 @@ public class PlayereStaticInputController : StaticInputController
         {
             m_CurrentDirection = eDirection.NORTH;
         }
-
         NotifyObservers(new sNotification(ON_ANGLE_SET, m_CurrentDirection, m_PreviousDirection));
     }
     #endregion

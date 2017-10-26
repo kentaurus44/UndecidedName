@@ -8,7 +8,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Observer : MonoBehaviour 
+public class Observer : MonoBehaviour, IObserver
 {
 	#region Variables
 	#endregion
