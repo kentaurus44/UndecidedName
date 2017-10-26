@@ -1,4 +1,11 @@
 # UndecidedName
+
+## Next Task:
+- Description
+  - Transition from one zone to another
+  - Simple camera movement similar to zelda link to the past
+- Mechanic Status: InProgress
+
 ## Version 2.0
 Changed Circular Controls to have a base so I can branch out and use static controls.
 - Description: 
@@ -15,6 +22,7 @@ Camera Logic
 Player:
 - Description: 
   - Player should follow direction of static controls
+  - Player Colliding into walls should stop unless using 2 direction in which the player should continue in the other direction till he hits 2 walls
 - Mechanics Status: Complete
 
 ## Version 1.0
