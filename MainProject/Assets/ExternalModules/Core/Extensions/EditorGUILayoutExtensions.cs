@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
-
+#if UNITY_EDITOR
 public static class EditorGUILayoutExtensions
 {
 	public static T DragAndDropArea<T>(Rect rect, string label, T defaultObject = null) where T : Object
@@ -59,3 +59,4 @@ public static class EditorGUILayoutExtensions
 				select type).ToArray();
 	}
 }
+#endif

@@ -40,7 +40,9 @@ namespace LevelLoader
 
 			Save(view);
 
+#if UNITY_EDITOR
 			UnityEditor.AssetDatabase.SaveAssets();
+#endif
 		}
 		#endregion
 

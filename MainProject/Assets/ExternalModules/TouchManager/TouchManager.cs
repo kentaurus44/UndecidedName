@@ -75,7 +75,7 @@ namespace TouchAction
 			{
 				if (hitsList[i].collider)
 				{
-					touch = hitsList[i].collider.gameObject.GetComponent<BaseTouch>();
+					touch = hitsList[i].collider.GetComponent<BaseTouch>();
 					if (touch != null)
 					{
 						m_CurrentTouches.Add(touch);
@@ -93,7 +93,7 @@ namespace TouchAction
 			{
 				if (hitsList[i].collider)
 				{
-					touch = hitsList[i].collider.gameObject.GetComponent<BaseTouch>();
+					touch = hitsList[i].collider.GetComponent<BaseTouch>();
 					if (touch != null)
 					{
 						m_CurrentTouches.Add(touch);
