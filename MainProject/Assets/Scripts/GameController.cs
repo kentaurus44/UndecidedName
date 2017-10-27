@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] protected DirectionalInputController m_InputController;
 	[SerializeField] protected PlayerController m_PlayerController;
     [SerializeField] protected CameraController m_CameraController;
-    [SerializeField] protected CameraController.sPerimeter m_Perimeter;
+    [SerializeField] protected CameraPerimeter m_Perimeter;
     #endregion
     
     #region Unity API

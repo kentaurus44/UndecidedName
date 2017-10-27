@@ -9,7 +9,6 @@ using UnityEngine;
 
 using System.Collections;
 
-
 public class CameraController : MonoBehaviour
 {
     #region Variables
@@ -20,34 +19,7 @@ public class CameraController : MonoBehaviour
     private Vector3 m_CurrentVelocity = Vector3.zero;
     private Camera m_Camera;
     private Vector3 m_TargetPosition;
-    private sPerimeter m_CurrentPerimeter = new sPerimeter();
-
-    [System.Serializable]
-    public struct sPerimeter
-    {
-        public Vector3 Center;
-        public Vector3 Size;
-
-        public float RightExtend()
-        {
-            return Center.x + (Size.x / 2f);
-        }
-
-        public float LeftExtend()
-        {
-            return Center.x - (Size.x / 2f);
-        }
-
-        public float UpExtend()
-        {
-            return Center.x + (Size.x / 2f);
-        }
-
-        public float DownExtend()
-        {
-            return Center.x - (Size.x / 2f);
-        }
-    }
+    private CameraPerimeter m_CurrentPerimeter;
 
     private float CameraWidth
     {
@@ -108,7 +80,7 @@ public class CameraController : MonoBehaviour
         m_Camera = CustomCamera.CameraManager.Instance.MainCamera;
     }
 
-    public void LoadPerimeter(sPerimeter perimeter)
+    public void LoadPerimeter(CameraPerimeter perimeter)
     {
         m_CurrentPerimeter = perimeter;
     }
