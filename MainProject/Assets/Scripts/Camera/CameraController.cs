@@ -13,13 +13,19 @@ public class CameraController : MonoBehaviour
 {
     #region Variables
     [SerializeField] protected bool m_InitOnAwake = false;
-    [SerializeField] protected BoxCollider m_BoxCollider;
     [SerializeField] protected Transform m_FollowedObject;
 
     private Vector3 m_CurrentVelocity = Vector3.zero;
     private Camera m_Camera;
     private Vector3 m_TargetPosition;
     private CameraPerimeter m_CurrentPerimeter;
+    private bool m_SnapToEdge = true;
+
+    public bool SnapToEdge
+    {
+        get { return m_SnapToEdge; }
+        set { m_SnapToEdge = value; }
+    }
 
     private float CameraWidth
     {
@@ -43,30 +49,9 @@ public class CameraController : MonoBehaviour
 
     protected virtual void LateUpdate()
     {     
-        if (m_Camera != null)
+        if (m_SnapToEdge && m_Camera != null)
         {
-            m_TargetPosition = m_FollowedObject.position;
-            m_TargetPosition.z = m_Camera.transform.position.z;
-
-            // Horizontal Clipping
-            if (m_TargetPosition.x + CameraWidth >= m_CurrentPerimeter.RightExtend())
-            {
-                m_TargetPosition.x = m_CurrentPerimeter.RightExtend() - CameraWidth;
-            }
-            else if (m_TargetPosition.x - CameraWidth <= m_CurrentPerimeter.LeftExtend())
-            {
-                m_TargetPosition.x = m_CurrentPerimeter.LeftExtend() + CameraWidth;
-            }
-
-            // Vertical Clipping
-            if (m_TargetPosition.y + CameraHeight >= m_CurrentPerimeter.UpExtend())
-            {
-                m_TargetPosition.y = m_CurrentPerimeter.UpExtend() - CameraHeight;
-            }
-            else if (m_TargetPosition.y - CameraHeight <= m_CurrentPerimeter.DownExtend())
-            {
-                m_TargetPosition.y = m_CurrentPerimeter.DownExtend() + CameraHeight;
-            }
+            m_TargetPosition = GetTargetPostion(m_FollowedObject.position);
 
             // Smooth damp to follow character
             m_Camera.transform.position = Vector3.SmoothDamp(m_Camera.transform.position, m_TargetPosition, ref m_CurrentVelocity, 0.01f);
@@ -83,6 +68,33 @@ public class CameraController : MonoBehaviour
     public void LoadPerimeter(CameraPerimeter perimeter)
     {
         m_CurrentPerimeter = perimeter;
+    }
+
+    public Vector3 GetTargetPostion(Vector3 targetPosition)
+    {
+        targetPosition.z = m_Camera.transform.position.z;
+
+        // Horizontal Clipping
+        if (targetPosition.x + CameraWidth >= m_CurrentPerimeter.RightExtend())
+        {
+            targetPosition.x = m_CurrentPerimeter.RightExtend() - CameraWidth;
+        }
+        else if (targetPosition.x - CameraWidth <= m_CurrentPerimeter.LeftExtend())
+        {
+            targetPosition.x = m_CurrentPerimeter.LeftExtend() + CameraWidth;
+        }
+
+        // Vertical Clipping
+        if (targetPosition.y + CameraHeight >= m_CurrentPerimeter.UpExtend())
+        {
+            targetPosition.y = m_CurrentPerimeter.UpExtend() - CameraHeight;
+        }
+        else if (targetPosition.y - CameraHeight <= m_CurrentPerimeter.DownExtend())
+        {
+            targetPosition.y = m_CurrentPerimeter.DownExtend() + CameraHeight;
+        }
+
+        return targetPosition;
     }
     #endregion
 

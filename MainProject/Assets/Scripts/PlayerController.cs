@@ -29,6 +29,10 @@ public class PlayerController : SubjectObserver
     [SerializeField] protected BoxCollider m_BoxCollider;
 	private Vector3 m_Direction;
 
+    public BoxCollider BoxCollider
+    {
+        get { return m_BoxCollider; }
+    }
     #endregion
 
     #region Unity API
@@ -39,7 +43,7 @@ public class PlayerController : SubjectObserver
     }
     #endregion
 
-    #region Public 
+    #region Public
     #endregion
 
     #region Protected Methods
@@ -79,11 +83,14 @@ public class PlayerController : SubjectObserver
             {
                 sNotification sNotify = (sNotification)args[0];
 
-                if (sNotify.args[0] is PlayereStaticInputController.eDirection)
+                if (sNotify.args.Length > 0)
                 {
-                    PlayereStaticInputController.eDirection eDir = (PlayereStaticInputController.eDirection)sNotify.args[0];
-                    m_Direction = DIRECTION_CONVERT[eDir];
-                    Move();
+                    if (sNotify.args[0] is PlayereStaticInputController.eDirection)
+                    {
+                        PlayereStaticInputController.eDirection eDir = (PlayereStaticInputController.eDirection)sNotify.args[0];
+                        m_Direction = DIRECTION_CONVERT[eDir];
+                        Move();
+                    }
                 }
             }
         }

@@ -94,6 +94,7 @@ public class DirectionalInputController : BaseTouch
     public override void OnTouchEnded(TouchEvent evt)
     {
         base.OnTouchEnded(evt);
+        NotifyObservers(new sNotification(ON_TOUCH_ENDED));
     }
     #endregion
 }

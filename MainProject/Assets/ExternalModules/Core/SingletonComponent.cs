@@ -27,6 +27,13 @@ public class SingletonComponent<T> : SubjectObserver where T : Component
 	#endregion
 
 	#region Unity API
+    protected virtual void Awake()
+    {
+        if (IsInstanceNull())
+        {
+            m_Instance = GetComponent<T>();
+        }
+    }
 	#endregion
 
 	#region Public Methods

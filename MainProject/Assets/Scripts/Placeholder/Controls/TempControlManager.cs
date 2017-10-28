@@ -86,6 +86,10 @@ public class TempControlManager : Observer
                 {
                     SetActiveVisual((PlayereStaticInputController.eDirection) sNotify.args[0]);
                 }
+                else if (sNotify.key.ToString().CompareTo(PlayereStaticInputController.ON_TOUCH_ENDED) == 0)
+                {
+                    SetAllControlsInactive();
+                }
             }
         }
     }
