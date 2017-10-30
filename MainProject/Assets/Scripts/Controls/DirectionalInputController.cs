@@ -6,10 +6,9 @@
 //
 
 using UnityEngine;
-using TouchAction;
 
 
-public class DirectionalInputController : BaseTouch
+public class DirectionalInputController : SubjectObserver
 {
     #region Variables
     public const string ON_TOUCH_BEGIN = "ON_TOUCH_BEGIN";
@@ -76,25 +75,5 @@ public class DirectionalInputController : BaseTouch
     #endregion
 
     #region ITouchable
-    public override bool OnTouchBegin(TouchEvent evt)
-    {
-        bool isActive = base.OnTouchBegin(evt);
-
-        SetAngle(evt.CurrentPosition);
-
-        return isActive;
-    }
-
-    public override void OnTouchMoved(TouchEvent evt)
-    {
-        base.OnTouchMoved(evt);
-        SetAngle(evt.CurrentPosition);
-    }
-
-    public override void OnTouchEnded(TouchEvent evt)
-    {
-        base.OnTouchEnded(evt);
-        NotifyObservers(new sNotification(ON_TOUCH_ENDED));
-    }
     #endregion
 }

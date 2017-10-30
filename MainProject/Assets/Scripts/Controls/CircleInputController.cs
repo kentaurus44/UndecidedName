@@ -58,27 +58,27 @@ public class CircleInputController : DirectionalInputController
     #endregion
 
     #region ITouchable
-    public override bool OnTouchBegin(TouchEvent evt)
-	{
-		m_IsActive = true;
-		m_CenterPosition = evt.CurrentPosition;
-		m_CenterPosition.z = transform.position.z;
+ //   public override bool OnTouchBegin(TouchEvent evt)
+	//{
+	//	m_IsActive = true;
+	//	m_CenterPosition = evt.CurrentPosition;
+	//	m_CenterPosition.z = transform.position.z;
 
-		NotifyObservers(new sNotification(ON_TOUCH_BEGIN, m_TargetPosition - m_CenterPosition,  m_Angle, m_Ratio, m_IsActive));
-		return m_IsActive && base.OnTouchBegin(evt);
-	}
+	//	NotifyObservers(new sNotification(ON_TOUCH_BEGIN, m_TargetPosition - m_CenterPosition,  m_Angle, m_Ratio, m_IsActive));
+	//	return m_IsActive && base.OnTouchBegin(evt);
+	//}
 
-	public override void OnTouchMoved(TouchEvent evt)
-	{
-		base.OnTouchMoved(evt);
-		NotifyObservers(new sNotification(ON_TOUCH_MOVED, m_TargetPosition - m_CenterPosition, m_Angle, m_Ratio, m_IsActive));
-	}
+	//public override void OnTouchMoved(TouchEvent evt)
+	//{
+	//	base.OnTouchMoved(evt);
+	//	NotifyObservers(new sNotification(ON_TOUCH_MOVED, m_TargetPosition - m_CenterPosition, m_Angle, m_Ratio, m_IsActive));
+	//}
 
-	public override void OnTouchEnded(TouchEvent evt)
-	{
-		base.OnTouchEnded(evt);
-		m_IsActive = false;
-		NotifyObservers(new sNotification(ON_TOUCH_ENDED, m_TargetPosition - m_CenterPosition, m_Angle, m_Ratio, m_IsActive));
-	}
+	//public override void OnTouchEnded(TouchEvent evt)
+	//{
+	//	base.OnTouchEnded(evt);
+	//	m_IsActive = false;
+	//	NotifyObservers(new sNotification(ON_TOUCH_ENDED, m_TargetPosition - m_CenterPosition, m_Angle, m_Ratio, m_IsActive));
+	//}
 	#endregion
 }

@@ -6,11 +6,12 @@
 //
 
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 
-public class PlayereStaticInputController : StaticInputController
+public class PlayereStaticInputController : DirectionalInputController, IPointerDownHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
     #region Variables
     public static readonly string ON_ANGLE_SET = "ON_ANGLE_SET";
@@ -35,18 +36,24 @@ public class PlayereStaticInputController : StaticInputController
         NORTH_WEST
     }
 
+    private RectTransform m_PanelRect;
+
     [SerializeField] private TempControlManager m_TempVisualManager;
 
     private eDirection m_PreviousDirection;
     private eDirection m_CurrentDirection;
+    private bool m_IsMoving = false;
+    private bool m_IsFingerDown = false;
 
     #endregion
 
     #region Unity API
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
+
+        m_PanelRect = transform.parent as RectTransform;
         RegisterObserver(m_TempVisualManager);
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(m_PanelRect, transform.position, CustomCamera.CameraManager.Instance.UICamera, out m_CenterPosition);
     }
 
     protected override void OnDestroy()
@@ -54,9 +61,48 @@ public class PlayereStaticInputController : StaticInputController
         base.OnDestroy();
         UnregisterObserver(m_TempVisualManager);
     }
+
+    protected void Update()
+    {
+        if (m_IsFingerDown && m_IsMoving)
+        {
+            NotifyObservers(new sNotification(ON_ANGLE_SET, m_CurrentDirection, m_PreviousDirection));
+        }
+
+    }
     #endregion
 
     #region Public Methods
+    public void OnPointerDown(PointerEventData data)
+    {
+        m_IsFingerDown = true;
+        m_IsMoving = true;
+        OnDataSet(data);
+    }
+
+    public void OnDrag(PointerEventData data)
+    {
+        OnDataSet(data);
+    }
+
+    public void OnPointerUp(PointerEventData data)
+    {
+        m_IsFingerDown = false;
+        m_IsMoving = false;
+        NotifyObservers(new sNotification(ON_TOUCH_ENDED));
+    }
+
+    public void OnPointerEnter(PointerEventData data)
+    {
+        m_IsMoving = true;
+        OnDataSet(data);
+    }
+
+    public void OnPointerExit(PointerEventData data)
+    {
+        m_IsMoving = false;
+        NotifyObservers(new sNotification(ON_TOUCH_ENDED));
+    }
     #endregion
 
     #region Protected 
@@ -98,10 +144,16 @@ public class PlayereStaticInputController : StaticInputController
         {
             m_CurrentDirection = eDirection.NORTH;
         }
-        NotifyObservers(new sNotification(ON_ANGLE_SET, m_CurrentDirection, m_PreviousDirection));
     }
     #endregion
 
     #region Private Methods
+    private void OnDataSet(PointerEventData data)
+    {
+        m_PanelRect.SetAsFirstSibling();
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(m_PanelRect, data.position, CustomCamera.CameraManager.Instance.UICamera, out m_TargetPosition);
+
+        SetAngle(m_TargetPosition);
+    }
     #endregion
 }

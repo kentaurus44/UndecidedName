@@ -64,6 +64,7 @@ public class TransitionController : SingletonComponent<TransitionController>
     private void OnTweenComplete()
     {
         m_IsTransitioning = false;
+        m_CameraController.SnapToEdge = true;
     }
 
     public Vector3 GetPlayerPosition(Vector3 from, Vector3 to, AreaTransition.eTransitionType type)

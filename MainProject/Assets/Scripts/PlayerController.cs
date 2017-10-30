@@ -62,7 +62,7 @@ public class PlayerController : SubjectObserver
         }
 
         ray.direction = new Vector3(m_Direction.x, 0f, 0f).normalized;
-        bool isHittingHorizontal = Physics.Raycast(ray, m_BoxCollider.size.y / 2f, LayerMask.NameToLayer("UI"));
+        bool isHittingHorizontal = Physics.Raycast(ray, m_BoxCollider.size.x / 2f, LayerMask.NameToLayer("UI"));
         if (isHittingHorizontal)
         {
             m_Direction.x = 0f;
