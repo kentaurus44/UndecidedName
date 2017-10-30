@@ -1,12 +1,16 @@
 # UndecidedName
 
 ## Next Task:
-- Description
-  - Transition from one zone to another
-  - Simple camera movement similar to zelda link to the past
-- Mechanic Status: InProgress
+- Probably some visuals
+- And a build test
 
 ## Version 2.0
+Area Transitions
+- Description
+  - Transition from one zone to another
+  - Simple camera movement similar to zelda link to the past when changing zone
+- Mechanic Status: Complete
+
 Changed Circular Controls to have a base so I can branch out and use static controls.
 - Description: 
   - Basically a D-pad on screen, able to go in 8 direction
