@@ -17,8 +17,6 @@ public class CircleInputController : DirectionalInputController
 
     private float m_Ratio;
 
-	private bool m_IsActive = false;
-
 	public float Ratio 
 	{
 		get { return m_Ratio; }

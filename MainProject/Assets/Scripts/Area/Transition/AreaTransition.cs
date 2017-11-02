@@ -30,7 +30,6 @@ public class AreaTransition : Subject
     #region Unity API
     protected virtual void OnTriggerEnter(Collider c)
     {
-        Debug.Log(name + " Collided");
         NotifyObservers();
     }
     #endregion

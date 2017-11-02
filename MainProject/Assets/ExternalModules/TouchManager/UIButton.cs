@@ -6,25 +6,44 @@
 //
 
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 
-namespace TouchAction
+public class UIButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+
 {
-	public class UIButton : BaseTouch
-	{
-		#region Variables
-		#endregion
+    #region Variables
+    #endregion
 
-		#region Unity API
-		#endregion
+    #region Unity API
+    #endregion
 
-		#region Public Methods
-		#endregion
+    #region Public Methods
+    public void OnPointerDown(PointerEventData data)
+    {
+    }
 
-		#region Protected Methods
-		#endregion
+    public void OnDrag(PointerEventData data)
+    {
+    }
 
-		#region Private Methods
-		#endregion
-	}
+    public void OnPointerUp(PointerEventData data)
+    {
+    }
+
+    public void OnPointerEnter(PointerEventData data)
+    {
+    }
+
+    public void OnPointerExit(PointerEventData data)
+    {
+    }
+    #endregion
+
+    #region Protected Methods
+    #endregion
+
+    #region Private Methods
+    #endregion
 }

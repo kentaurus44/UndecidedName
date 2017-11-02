@@ -40,6 +40,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
 
     [SerializeField] private TempControlManager m_TempVisualManager;
 
+    private eDirection m_FacingDirection;
     private eDirection m_PreviousDirection;
     private eDirection m_CurrentDirection;
     private bool m_IsMoving = false;
@@ -66,7 +67,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
     {
         if (m_IsFingerDown && m_IsMoving)
         {
-            NotifyObservers(new sNotification(ON_ANGLE_SET, m_CurrentDirection, m_PreviousDirection));
+            NotifyObservers(new sNotification(ON_ANGLE_SET, m_CurrentDirection, m_PreviousDirection, m_FacingDirection));
         }
 
     }
@@ -119,6 +120,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
         else if (EAST - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < EAST + ANGLE_FROM_DIRECTION)
         {
             m_CurrentDirection = eDirection.EAST;
+            m_FacingDirection = eDirection.EAST;
         }
         else if (SOUTH_EAST - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < SOUTH_EAST + ANGLE_FROM_DIRECTION)
         {
@@ -127,6 +129,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
         else if (SOUTH - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < SOUTH + ANGLE_FROM_DIRECTION)
         {
             m_CurrentDirection = eDirection.SOUTH;
+            m_FacingDirection = eDirection.SOUTH;
         }
         else if (SOUTH_WEST - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < SOUTH_WEST + ANGLE_FROM_DIRECTION)
         {
@@ -135,6 +138,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
         else if (WEST - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < WEST + ANGLE_FROM_DIRECTION)
         {
             m_CurrentDirection = eDirection.WEST;
+            m_FacingDirection = eDirection.WEST;
         }
         else if (NORTH_WEST - ANGLE_FROM_DIRECTION <= m_Angle && m_Angle < NORTH_WEST + ANGLE_FROM_DIRECTION)
         {
@@ -143,6 +147,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
         else
         {
             m_CurrentDirection = eDirection.NORTH;
+            m_FacingDirection = eDirection.NORTH;
         }
     }
     #endregion

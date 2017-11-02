@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] protected DirectionalInputController m_InputController;
 	[SerializeField] protected PlayerController m_PlayerController;
     [SerializeField] protected CameraController m_CameraController;
+    [SerializeField] protected PlayerActionController m_ActionController;
     [SerializeField] protected CameraPerimeter m_Perimeter;
     #endregion
     
@@ -26,6 +27,7 @@ public class GameController : MonoBehaviour
         TouchAction.TouchManager.Instance.Init();
 
         m_InputController.RegisterObserver(m_PlayerController);
+        m_ActionController.RegisterObserver(m_PlayerController);
         m_CameraController.Init();
         m_CameraController.LoadPerimeter(m_Perimeter);
         m_InputController.Init();
@@ -34,7 +36,8 @@ public class GameController : MonoBehaviour
 	protected void OnDestroy()
 	{
 		m_InputController.UnregisterObserver(m_PlayerController);
-	}
+        m_ActionController.UnregisterObserver(m_PlayerController);
+    }
     #endregion
 
     #region Public Methods

@@ -28,6 +28,7 @@ public class PlayerController : SubjectObserver
     [SerializeField] protected float m_Velocity = 50f;
     [SerializeField] protected BoxCollider m_BoxCollider;
 	private Vector3 m_Direction;
+    private PlayereStaticInputController.eDirection m_Facing;
 
     public BoxCollider BoxCollider
     {
@@ -52,25 +53,80 @@ public class PlayerController : SubjectObserver
     #region Private Methods
     private void Move()
     {
-        Ray ray = new Ray();
-        ray.origin = transform.position;
-        ray.direction = new Vector3(0f, m_Direction.y, 0f).normalized;
-        bool isHittingVertical = Physics.Raycast(ray, m_BoxCollider.size.y / 2f, LayerMask.NameToLayer("UI"));
-        if (isHittingVertical)
+        Vector3 futurePosition = transform.position + m_Direction * m_Velocity * Time.deltaTime;
+
+        RaycastHit[] hits = Physics.BoxCastAll(transform.position, m_BoxCollider.size / 4f, new Vector3(m_Direction.x, 0f, 0f).normalized, Quaternion.identity, m_BoxCollider.size.x / 4f + 5f, LayerMask.NameToLayer("UI"));
+
+        for (int i = 0; i < hits.Length; ++i)
         {
-            m_Direction.y = 0f;
+            if (hits[i].transform.gameObject != gameObject)
+            {
+                if (futurePosition.x > transform.position.x)
+                {
+                    futurePosition.x = hits[i].point.x - m_BoxCollider.size.x / 2f;
+                }
+                else if (futurePosition.x < transform.position.x)
+                {
+                    futurePosition.x = hits[i].point.x + m_BoxCollider.size.x / 2f;
+                }
+                break;
+            }
         }
 
-        ray.direction = new Vector3(m_Direction.x, 0f, 0f).normalized;
-        bool isHittingHorizontal = Physics.Raycast(ray, m_BoxCollider.size.x / 2f, LayerMask.NameToLayer("UI"));
-        if (isHittingHorizontal)
+        hits = Physics.BoxCastAll(transform.position, m_BoxCollider.size / 4f, new Vector3(0f, m_Direction.y, 0f).normalized, Quaternion.identity, m_BoxCollider.size.y / 4f + 5f, LayerMask.NameToLayer("UI"));
+
+        for (int i = 0; i < hits.Length; ++i)
         {
-            m_Direction.x = 0f;
+            if (hits[i].transform.gameObject != gameObject)
+            {
+                if (futurePosition.y > transform.position.y)
+                {
+                    futurePosition.y = hits[i].point.y - m_BoxCollider.size.y / 2f;
+                }
+                else if (futurePosition.y < transform.position.y)
+                {
+                    futurePosition.y = hits[i].point.y + m_BoxCollider.size.y / 2f;
+                }
+                break;
+            }
         }
 
-        transform.position += m_Direction * m_Velocity * Time.deltaTime;
+        transform.position = futurePosition;
     }
 
+    private void Interact()
+    {
+        Ray ray = new Ray();
+        ray.origin = transform.position;
+        ray.direction = DIRECTION_CONVERT[m_Facing];
+        float distance;
+
+        if (m_Facing == PlayereStaticInputController.eDirection.EAST || m_Facing == PlayereStaticInputController.eDirection.WEST)
+        {
+            distance = m_BoxCollider.size.x / 2f;
+        }
+        else
+        {
+            distance = m_BoxCollider.size.y / 2f;
+        }
+        distance += 1f;
+
+        RaycastHit[] hits = Physics.RaycastAll(ray, distance);
+
+        RaycastHit hit;
+        IInteractable interactable = null;
+
+        for (int i = 0; i < hits.Length; ++i)
+        {
+            hit = hits[i];
+            interactable = hit.transform.gameObject.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact();
+            }
+        }
+
+    }
     #endregion
 
     #region IObservable
@@ -79,17 +135,34 @@ public class PlayerController : SubjectObserver
 		base.OnNotify(subject, args);
         if (args[0] is sNotification)
         {
-            if (subject is PlayereStaticInputController)
-            {
-                sNotification sNotify = (sNotification)args[0];
+            sNotification sNotify = (sNotification)args[0];
 
-                if (sNotify.args.Length > 0)
+            if (sNotify.args.Length > 0)
+            {
+                if (subject is PlayereStaticInputController)
                 {
                     if (sNotify.args[0] is PlayereStaticInputController.eDirection)
                     {
                         PlayereStaticInputController.eDirection eDir = (PlayereStaticInputController.eDirection)sNotify.args[0];
                         m_Direction = DIRECTION_CONVERT[eDir];
+                        m_Facing = (PlayereStaticInputController.eDirection)sNotify.args[2];
                         Move();
+                    }
+                }
+                else if (subject is PlayerActionController)
+                {
+                    if (sNotify.key.CompareTo(PlayerActionController.ON_ACTION_PERFORMED) == 0 && 
+                        sNotify.args[0] is PlayerActionController.eAction)
+                    {
+                        PlayerActionController.eAction eAction = (PlayerActionController.eAction)sNotify.args[0];
+
+                        switch (eAction)
+                        {
+                            case PlayerActionController.eAction.INTERACT:
+                                Interact();
+                                break;
+                        }
+
                     }
                 }
             }
