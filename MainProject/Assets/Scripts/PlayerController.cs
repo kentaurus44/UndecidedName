@@ -12,7 +12,9 @@ using System.Collections.Generic;
 public class PlayerController : SubjectObserver
 {
     #region Variables
-    private Dictionary<PlayereStaticInputController.eDirection, Vector3> DIRECTION_CONVERT = new Dictionary<PlayereStaticInputController.eDirection, Vector3>()
+    private const float RAYCAST_MOVING_BUFFER = 5f;
+    private const float RAYCAST_INTERACT_BUFFER = 5f;
+    private static readonly Dictionary<PlayereStaticInputController.eDirection, Vector3> DIRECTION_CONVERT = new Dictionary<PlayereStaticInputController.eDirection, Vector3>()
     {
         {PlayereStaticInputController.eDirection.NORTH, Vector3.up },
         {PlayereStaticInputController.eDirection.NORTH_EAST, (Vector3.up + Vector3.right).normalized },
@@ -27,12 +29,18 @@ public class PlayerController : SubjectObserver
 
     [SerializeField] protected float m_Velocity = 50f;
     [SerializeField] protected BoxCollider m_BoxCollider;
-	private Vector3 m_Direction;
+    private Vector3 m_Direction;
+    private Vector3 m_RayDirection;
     private PlayereStaticInputController.eDirection m_Facing;
 
     public BoxCollider BoxCollider
     {
         get { return m_BoxCollider; }
+    }
+
+    public Vector3 Extent
+    {
+        get { return m_BoxCollider.size / 2f; }
     }
     #endregion
 
@@ -55,7 +63,10 @@ public class PlayerController : SubjectObserver
     {
         Vector3 futurePosition = transform.position + m_Direction * m_Velocity * Time.deltaTime;
 
-        RaycastHit[] hits = Physics.BoxCastAll(transform.position, m_BoxCollider.size / 4f, new Vector3(m_Direction.x, 0f, 0f).normalized, Quaternion.identity, m_BoxCollider.size.x / 4f + 5f, LayerMask.NameToLayer("UI"));
+        m_RayDirection.x = m_Direction.x;
+        m_RayDirection.y = 0f;
+        m_RayDirection.z = 0f;
+        RaycastHit[] hits = Physics.BoxCastAll(transform.position, Extent / 2f, m_RayDirection.normalized, Quaternion.identity, Extent.x / 2f + RAYCAST_MOVING_BUFFER, LayerMask.NameToLayer("UI"));
 
         for (int i = 0; i < hits.Length; ++i)
         {
@@ -63,17 +74,20 @@ public class PlayerController : SubjectObserver
             {
                 if (futurePosition.x > transform.position.x)
                 {
-                    futurePosition.x = hits[i].point.x - m_BoxCollider.size.x / 2f;
+                    futurePosition.x = hits[i].point.x - Extent.x;
                 }
                 else if (futurePosition.x < transform.position.x)
                 {
-                    futurePosition.x = hits[i].point.x + m_BoxCollider.size.x / 2f;
+                    futurePosition.x = hits[i].point.x + Extent.x;
                 }
-                break;
+                break; // breaking because we only care about the first one hit
             }
         }
 
-        hits = Physics.BoxCastAll(transform.position, m_BoxCollider.size / 4f, new Vector3(0f, m_Direction.y, 0f).normalized, Quaternion.identity, m_BoxCollider.size.y / 4f + 5f, LayerMask.NameToLayer("UI"));
+        m_RayDirection.x = 0f;
+        m_RayDirection.y = m_Direction.y;
+        m_RayDirection.z = 0f;
+        hits = Physics.BoxCastAll(transform.position, Extent / 2f, m_RayDirection.normalized, Quaternion.identity, Extent.y / 2f + RAYCAST_MOVING_BUFFER, LayerMask.NameToLayer("UI"));
 
         for (int i = 0; i < hits.Length; ++i)
         {
@@ -81,13 +95,13 @@ public class PlayerController : SubjectObserver
             {
                 if (futurePosition.y > transform.position.y)
                 {
-                    futurePosition.y = hits[i].point.y - m_BoxCollider.size.y / 2f;
+                    futurePosition.y = hits[i].point.y - Extent.y;
                 }
                 else if (futurePosition.y < transform.position.y)
                 {
-                    futurePosition.y = hits[i].point.y + m_BoxCollider.size.y / 2f;
+                    futurePosition.y = hits[i].point.y + Extent.y;
                 }
-                break;
+                break; // breaking because we only care about the first one hit
             }
         }
 
@@ -103,19 +117,18 @@ public class PlayerController : SubjectObserver
 
         if (m_Facing == PlayereStaticInputController.eDirection.EAST || m_Facing == PlayereStaticInputController.eDirection.WEST)
         {
-            distance = m_BoxCollider.size.x / 2f;
+            distance = Extent.x;
         }
         else
         {
-            distance = m_BoxCollider.size.y / 2f;
+            distance = Extent.y;
         }
-        distance += 1f;
+        distance += RAYCAST_INTERACT_BUFFER;
 
         RaycastHit[] hits = Physics.RaycastAll(ray, distance);
 
         RaycastHit hit;
         IInteractable interactable = null;
-
         for (int i = 0; i < hits.Length; ++i)
         {
             hit = hits[i];
@@ -125,7 +138,6 @@ public class PlayerController : SubjectObserver
                 interactable.Interact();
             }
         }
-
     }
     #endregion
 

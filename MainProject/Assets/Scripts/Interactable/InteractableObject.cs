@@ -21,7 +21,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
     #region Public Methods
     public virtual void Interact()
     {
-        Debug.Log("I am a wall");
+        
     }
     #endregion
 
