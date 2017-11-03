@@ -38,7 +38,7 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
 
     private RectTransform m_PanelRect;
 
-    [SerializeField] private TempControlManager m_TempVisualManager;
+    [SerializeField] private ControllerVisuals m_ControllerVisuals;
 
     private eDirection m_FacingDirection;
     private eDirection m_PreviousDirection;
@@ -51,16 +51,15 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
     #region Unity API
     protected void Start()
     {
-
         m_PanelRect = transform.parent as RectTransform;
-        RegisterObserver(m_TempVisualManager);
+        RegisterObserver(m_ControllerVisuals);
         RectTransformUtility.ScreenPointToWorldPointInRectangle(m_PanelRect, transform.position, CustomCamera.CameraManager.Instance.UICamera, out m_CenterPosition);
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        UnregisterObserver(m_TempVisualManager);
+        UnregisterObserver(m_ControllerVisuals);
     }
 
     protected void Update()
