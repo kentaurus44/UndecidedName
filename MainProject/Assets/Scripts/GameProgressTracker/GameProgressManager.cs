@@ -19,16 +19,40 @@ public class GameProgressManager : SingletonComponent<GameProgressManager>
         ITEM,
         EVENT
     }
+
+    public enum eEvent
+    {
+        RECEIVE,
+        GIVE,
+        EVENT
+    }
     #endregion
 
     #region Unity API
-    [SerializeField] protected GameProgressTracker m_Progress;
+    protected GameProgressTracker m_Progress;
     #endregion
 
     #region Public Methods
     public void LoadGameProgress(GameProgressTracker progress)
     {
         m_Progress = progress;
+        m_Progress.Reset();
+    }
+
+    public void TriggerEvent(eEvent evt, string name)
+    {
+        switch (evt)
+        {
+            case eEvent.EVENT:
+                m_Progress.CompleteEvent(name);
+                break;
+            case eEvent.RECEIVE:
+                m_Progress.ReceiveItem(name);
+                break;
+            case eEvent.GIVE:
+                m_Progress.GiveItem(name);
+                break;
+        }
     }
 
     public bool Contains(eTracked tracked, string item)
@@ -38,10 +62,10 @@ public class GameProgressManager : SingletonComponent<GameProgressManager>
         switch (tracked)
         {
             case eTracked.ITEM:
-                result = VerifyItem(item);
+                result = m_Progress.HasItem(item);
                 break;
             case eTracked.EVENT:
-                result = VerifyEvent(item);
+                result = m_Progress.IsEventCompleted(item);
                 break;
         }
 
@@ -50,15 +74,6 @@ public class GameProgressManager : SingletonComponent<GameProgressManager>
     #endregion
 
     #region Protected Methods
-    protected bool VerifyItem(string item)
-    {
-        return m_Progress.HasItem(item);
-    }
-
-    protected bool VerifyEvent(string evt)
-    {
-        return m_Progress.EventCompleted(evt);
-    }
     #endregion
 
     #region Private Methods

@@ -15,10 +15,22 @@ public class Area : Observer
     #region Variables
     [SerializeField] protected CameraPerimeter m_CameraPerimeter;
     [SerializeField] protected TransitionController.sTransitionParameters[] m_TransitionParameters;
+    [SerializeField] protected bool m_InitialArea = false;
+    [SerializeField] protected Transform m_CharacterInitalPosition;
 
     public CameraPerimeter CameraPerimeter
     {
         get { return m_CameraPerimeter; }
+    }
+
+    public bool InitialArea
+    {
+        get { return m_InitialArea; }
+    }
+
+    public Transform CharacterInitalPosition
+    {
+        get { return m_CharacterInitalPosition; }
     }
     #endregion
 
@@ -44,6 +56,20 @@ public class Area : Observer
     #endregion
 
     #region Public Methods
+    public void Pause()
+    {
+        
+    }
+
+    public void Play()
+    {
+        
+    }
+
+    public void Reset()
+    {
+        
+    }
     #endregion
 
     #region Protected Methods

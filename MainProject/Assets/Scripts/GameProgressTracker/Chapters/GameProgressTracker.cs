@@ -13,7 +13,7 @@ public class GameProgressTracker : ScriptableObject
 {
     #region Variables
     [System.Serializable]
-    public class Events
+    public class Event
     {
         [SerializeField] protected string m_EventName;
         [SerializeField] protected bool m_EventCompleted;
@@ -26,11 +26,12 @@ public class GameProgressTracker : ScriptableObject
         public bool EventCompleted
         {
             get { return m_EventCompleted; }
+            set { m_EventCompleted = value; }
         }
     }
 
     [System.Serializable]
-    public class Items
+    public class Item
     {
         [SerializeField] protected string m_ItemName;
         [SerializeField] protected bool m_Obtained;
@@ -43,33 +44,50 @@ public class GameProgressTracker : ScriptableObject
         public bool Obtained
         {
             get { return m_Obtained; }
+            set { m_Obtained = value; }
         }
     }
 
-    [SerializeField] protected Events[] m_Events;
-    [SerializeField] protected Items[] m_Items;
+    [SerializeField] protected Event[] m_Events;
+    [SerializeField] protected Item[] m_Items;
     #endregion
 
     #region Unity API
     #endregion
 
     #region Public Methods
-    public bool HasItem(string name)
+    public void Reset()
     {
-        bool result = false;
+        for (int i = 0; i < m_Events.Length; ++i)
+        {
+            m_Events[i].EventCompleted = false;
+        }
 
         for (int i = 0; i < m_Items.Length; ++i)
         {
-            if (m_Items[i].ItemName.CompareTo(name) == 0)
-            {
-                result = m_Items[i].Obtained;
-            }
+            m_Items[i].Obtained = false;
         }
 
-        return result;
     }
 
-    public bool EventCompleted(string name)
+    public bool HasItem(string name)
+    {
+        Item item = GetItem(name);
+
+        return item != null && item.Obtained;
+    }
+
+    public void ReceiveItem(string name)
+    {
+        SetItem(name, true);
+    }
+
+    public void GiveItem(string name)
+    {
+        SetItem(name, false);
+    }
+
+    public bool IsEventCompleted(string name)
     {
         bool result = false;
 
@@ -83,11 +101,53 @@ public class GameProgressTracker : ScriptableObject
 
         return result;
     }
+
+    public void CompleteEvent(string name)
+    {
+        Event evt = GetEvent(name);
+
+        evt.EventCompleted = true;
+    }
     #endregion
 
     #region Protected Methods
     #endregion
 
     #region Private Methods
+    private void SetItem(string name, bool val)
+    {
+        Item item = GetItem(name);
+
+        item.Obtained = val;
+    }
+
+    private Item GetItem(string name)
+    {
+        Item item = null;
+        for (int i = 0; i < m_Items.Length; ++i)
+        {
+            if (m_Items[i].ItemName.CompareTo(name) == 0)
+            {
+                item = m_Items[i];
+            }
+        }
+
+        return item;
+    }
+
+    private Event GetEvent(string name)
+    {
+        Event evt = null;
+
+        for (int i = 0; i < m_Events.Length; ++i)
+        {
+            if (m_Events[i].EventName.CompareTo(name) == 0)
+            {
+                evt = m_Events[i];
+            }
+        }
+
+        return evt;
+    }
     #endregion
 }

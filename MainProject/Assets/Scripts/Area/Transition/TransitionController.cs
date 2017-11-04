@@ -14,7 +14,7 @@ public class TransitionController : SingletonComponent<TransitionController>
 {
     #region Variables
     private const float PLAYER_OFFSET = 10f;
-
+    public const string ON_TRANSITION_COMPLETE = "ON_TRANSITION_COMPLETE";
     [System.Serializable]
     public struct sTransitionParameters
     {
@@ -23,21 +23,31 @@ public class TransitionController : SingletonComponent<TransitionController>
         public Area TargetArea;
     }
 
-    [SerializeField] protected CameraController m_CameraController;
-    [SerializeField] protected PlayerController m_PlayerController;
+    protected CameraController m_CameraController;
+    protected PlayerController m_PlayerController;
     [SerializeField] protected float m_TransitionLength = 0.5f;
 
     private bool m_IsTransitioning = false;
+    private Area m_TargetArea;
     #endregion
 
     #region Unity API
     #endregion
 
     #region Public Methods
+    public void Init(CameraController cameraController, PlayerController playerController)
+    {
+        m_CameraController = cameraController;
+        m_PlayerController = playerController;
+    }
+
     public void BeginTransition(Area origin, sTransitionParameters paramters)
     {
         if (!m_IsTransitioning)
         {
+            origin.Pause();
+            m_TargetArea = paramters.TargetArea;
+
             m_IsTransitioning = true;
             m_CameraController.SnapToEdge = false;
             m_CameraController.LoadPerimeter(paramters.TargetArea.CameraPerimeter);
@@ -65,6 +75,7 @@ public class TransitionController : SingletonComponent<TransitionController>
     {
         m_IsTransitioning = false;
         m_CameraController.SnapToEdge = true;
+        NotifyObservers(new sNotification(ON_TRANSITION_COMPLETE, m_TargetArea));
     }
 
     public Vector3 GetPlayerPosition(Vector3 from, Vector3 to, AreaTransition.eTransitionType type)

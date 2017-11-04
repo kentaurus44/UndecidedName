@@ -39,8 +39,10 @@ public class DialogManager : SingletonComponent<DialogManager>
             get { return m_RepeatDialogKey; }
         }
     }
+
+    [SerializeField] protected TextboxController m_TextBoxController;
     #endregion
-    
+
     #region Unity API
     #endregion
 
