@@ -18,6 +18,7 @@ public class GameController : Observer
 	[SerializeField] protected PlayerController m_PlayerController;
     [SerializeField] protected CameraController m_CameraController;
     [SerializeField] protected PlayerActionController m_ActionController;
+    [SerializeField] protected AreaNotification m_AreaNotification;
 
     [Header("Story")]
     [SerializeField] protected Chapter m_Chapter;
@@ -80,6 +81,7 @@ public class GameController : Observer
         if (!TransitionController.IsInstanceNull())
         {
             TransitionController.Instance.UnregisterObserver(this);
+            TransitionController.Instance.UnregisterObserver(m_AreaNotification);
         }
     }
 
@@ -109,6 +111,7 @@ public class GameController : Observer
     {
         TransitionController.Instance.Init(m_CameraController, m_PlayerController);
         TransitionController.Instance.RegisterObserver(this);
+        TransitionController.Instance.RegisterObserver(m_AreaNotification);
     }
 
     private void InitProgress()

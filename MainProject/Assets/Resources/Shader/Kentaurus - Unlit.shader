@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+		_Color ("Color", Color) = (0,0,0,0)
 		_MainTex ("Main Texture", 2D) = "white" {}
 	}
 	SubShader
@@ -33,6 +34,7 @@
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			float4 _Color;
 
 			v2f vert (appdata v)
 			{
@@ -45,7 +47,7 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				return tex2D(_MainTex, i.uv);
+				return tex2D(_MainTex, i.uv) * _Color;
 			}
 			ENDCG
 		}

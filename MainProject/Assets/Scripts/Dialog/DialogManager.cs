@@ -9,9 +9,11 @@ using UnityEngine;
 using System.Collections;
 
 
-public class DialogManager : SingletonComponent<DialogManager>
+public class DialogManager
 {
     #region Variables
+    public const string ON_DIALOGUE_TRIGGERED = "ON_DIALOGUE_TRIGGERED";
+
     [System.Serializable]
     public class DialogTrigger : TriggerEvent
     {
@@ -39,15 +41,13 @@ public class DialogManager : SingletonComponent<DialogManager>
             get { return m_RepeatDialogKey; }
         }
     }
-
-    [SerializeField] protected TextboxController m_TextBoxController;
     #endregion
 
     #region Unity API
     #endregion
 
     #region Public Methods
-    public void TriggerDialog(DialogTrigger[] triggers)
+    public static string GetDialog(DialogTrigger[] triggers)
     {
         DialogTrigger trigger = null;
         DialogTrigger tempTrigger = null;
@@ -68,12 +68,12 @@ public class DialogManager : SingletonComponent<DialogManager>
             trigger = tempTrigger;
         }
 
-        TriggerDialog(trigger);
+        return trigger.FirstDialogKey;
     }
     
-    public void TriggerDialog(DialogTrigger trigger)
+    public static void Trigger(DialogTrigger trigger)
     {
-        Debug.Log(trigger.FirstDialogKey);
+        //MessageBoxController.Instance.Open(trigger.TriggerKey);
     }
     #endregion
 

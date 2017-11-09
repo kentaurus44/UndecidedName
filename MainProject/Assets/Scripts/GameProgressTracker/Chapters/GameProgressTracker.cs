@@ -35,6 +35,7 @@ public class GameProgressTracker : ScriptableObject
     {
         [SerializeField] protected string m_ItemName;
         [SerializeField] protected bool m_Obtained;
+        [SerializeField] protected float m_Quantity;
 
         public string ItemName
         {
@@ -45,6 +46,12 @@ public class GameProgressTracker : ScriptableObject
         {
             get { return m_Obtained; }
             set { m_Obtained = value; }
+        }
+
+        public float Quantity
+        {
+            get { return m_Quantity; }
+            set { m_Quantity = value; }
         }
     }
 

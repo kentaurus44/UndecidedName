@@ -15,6 +15,7 @@ public class TransitionController : SingletonComponent<TransitionController>
     #region Variables
     private const float PLAYER_OFFSET = 10f;
     public const string ON_TRANSITION_COMPLETE = "ON_TRANSITION_COMPLETE";
+    public const string ON_TRANSITION_BEGIN = "ON_TRANSITION_BEGIN";
     [System.Serializable]
     public struct sTransitionParameters
     {
@@ -45,6 +46,7 @@ public class TransitionController : SingletonComponent<TransitionController>
     {
         if (!m_IsTransitioning)
         {
+            NotifyObservers(new sNotification(ON_TRANSITION_BEGIN));
             origin.Pause();
             m_TargetArea = paramters.TargetArea;
 

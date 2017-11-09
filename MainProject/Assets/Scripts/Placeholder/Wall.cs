@@ -23,7 +23,8 @@ public class Wall : InteractableObject
     public override void Interact()
     {
         base.Interact();
-        DialogManager.Instance.TriggerDialog(m_DialogTrigger);
+        string key = DialogManager.GetDialog(m_DialogTrigger);
+        MessageBoxController.Instance.Open(new MessageBox.MessageBoxParam(MessageBox.eType.MESSAGE, key, null));
     }
     #endregion
 
