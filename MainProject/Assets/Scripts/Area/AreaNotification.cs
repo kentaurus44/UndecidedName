@@ -14,28 +14,20 @@ using System.Collections;
 public class AreaNotification : Observer
 {
     #region Variables
-    private const float PANEL_TRANSITION = 0.5f;
-    private const float PANEL_DISPLAYED = PANEL_TRANSITION + 1f;
+    private const float PANEL_DISPLAYED = 1f;
 
-    [SerializeField] protected Vector3 m_HiddenOffset;
     [SerializeField] protected Image m_Background;
     [SerializeField] protected Text m_Text;
-
-    private RectTransform m_CurrentTransform;
-    private WaitForSeconds m_Wait = new WaitForSeconds(PANEL_DISPLAYED);
+    [SerializeField] protected PanelMover m_PanelMover;
+    private WaitForSeconds m_Wait;
     private Coroutine m_Coroutine;
-    private Vector3 m_InitalPosition;
-    private Vector3 m_HiddenPosition;
-    private Tween m_Tween;
     #endregion
 
     #region Unity API
     protected void Awake()
     {
-        m_CurrentTransform = GetComponent<RectTransform>();
-        m_InitalPosition = m_CurrentTransform.position;
-        m_HiddenPosition = m_InitalPosition + m_HiddenOffset;
-        m_CurrentTransform.position = m_HiddenPosition;
+        m_Wait = new WaitForSeconds(PANEL_DISPLAYED + m_PanelMover.TransitionTime);
+        DisablePanel();
     }
     #endregion
 
@@ -48,12 +40,13 @@ public class AreaNotification : Observer
     #region Private Methods
     private IEnumerator NotificationSequence()
     {
-        m_Tween = m_CurrentTransform.DOMove(m_InitalPosition, PANEL_TRANSITION);
+        EnablePanel(true);
+        m_PanelMover.HideImmediately();
+        m_PanelMover.Show();
 
         yield return m_Wait;
 
-        m_Tween.Kill(true);
-        m_Tween = m_CurrentTransform.DOMove(m_HiddenPosition, PANEL_TRANSITION);
+        m_PanelMover.Hide(DisablePanel);
     }
 
     private void StopCoroutine()
@@ -68,8 +61,18 @@ public class AreaNotification : Observer
     private void Reset()
     {
         StopCoroutine();
-        m_Tween.Kill(false);
-        m_CurrentTransform.position = m_HiddenPosition;
+        m_PanelMover.HideImmediately();
+        DisablePanel();
+    }
+
+    private void DisablePanel()
+    {
+        EnablePanel(false);
+    }
+
+    private void EnablePanel(bool enable)
+    {
+        m_PanelMover.gameObject.SetActive(enable);
     }
     #endregion
 
