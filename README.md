@@ -1,10 +1,19 @@
 # UndecidedName
 
-## Next Task:
-- Probably some visuals
-- And a build test
-
 ## Version 2.0
+Backpack System
+- Description:
+  - Opening and closing backpack
+  - see items that are available and tap on them to display some information
+- Mechanics Status: Completed
+- Visuals Status: Placeholder
+
+Area Notification
+- Description
+  - When arriving in an area, a small popup displays what is the area called
+- Mechanics Status: Completed
+- Visual Status: Placeholder
+
 Area Transitions
 - Description
   - Transition from one zone to another
