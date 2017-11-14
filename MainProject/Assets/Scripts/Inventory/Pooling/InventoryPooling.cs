@@ -14,6 +14,7 @@ public class InventoryPooling : ObjectPool<InventoryItem>
 {
     #region Variables
     private IObserver m_Observer;
+    [SerializeField] protected float m_ItemOffset = 10f;
     #endregion
     
     #region Unity API
@@ -27,6 +28,8 @@ public class InventoryPooling : ObjectPool<InventoryItem>
         for (int i = 0; i < items.Count; ++i)
         {
             m_UsedObject[i].LoadItem(items[i]);
+            m_UsedObject[i].transform.localPosition = new Vector3(0f, -(m_UsedObject[i].Height + m_ItemOffset) * i, 0f);
+            m_UsedObject[i].name = m_UsedObject[i].Name;
         }
     }
 

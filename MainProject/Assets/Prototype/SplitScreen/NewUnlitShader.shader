@@ -1,4 +1,6 @@
-﻿Shader "Kentaurus/NewUnlitShader"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Kentaurus/NewUnlitShader"
 {
 	Properties
 	{
@@ -47,7 +49,7 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.uv2 = TRANSFORM_TEX(v.uv2, _SecondTex);
 				o.uv3 = TRANSFORM_TEX(v.uv3, _Splitter);

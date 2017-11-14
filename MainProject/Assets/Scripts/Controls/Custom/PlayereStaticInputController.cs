@@ -49,13 +49,6 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
     #endregion
 
     #region Unity API
-    protected void Start()
-    {
-        m_PanelRect = transform.parent as RectTransform;
-        RegisterObserver(m_ControllerVisuals);
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(m_PanelRect, transform.position, CustomCamera.CameraManager.Instance.UICamera, out m_CenterPosition);
-    }
-
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -73,6 +66,13 @@ public class PlayereStaticInputController : DirectionalInputController, IPointer
     #endregion
 
     #region Public Methods
+    public override void Init()
+    {
+        base.Init();
+        m_PanelRect = transform.parent as RectTransform;
+        RegisterObserver(m_ControllerVisuals);
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(m_PanelRect, m_PanelRect.rect.position + m_PanelRect.rect.size / 2f, CustomCamera.CameraManager.Instance.UICamera, out m_CenterPosition);
+    }
     public void OnPointerDown(PointerEventData data)
     {
         m_IsFingerDown = true;

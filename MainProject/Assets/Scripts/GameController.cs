@@ -36,9 +36,7 @@ public class GameController : Observer
 
     protected void Start()
     {
-#if UNITY_EDITOR
         LoadChapter(m_Chapter);
-#endif
     }
 
     protected void OnDestroy()

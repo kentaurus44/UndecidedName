@@ -16,7 +16,7 @@ public class BackpackController : MonoBehaviour
     [SerializeField] protected Button m_OpenBackpack;
     [SerializeField] protected Button m_CloseBackpack;
     [SerializeField] protected PanelMover m_PanelMover;
-    [SerializeField]protected Inventory m_Inventory;
+    [SerializeField] protected Inventory m_Inventory;
     #endregion
 
     #region Unity API

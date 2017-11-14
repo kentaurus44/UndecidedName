@@ -17,13 +17,31 @@ public class InventoryItem : Subject, IPointerDownHandler
     public const string ON_SELECTED = "ON_SELECTED";
     [SerializeField] protected Text m_Text;
 
+    private RectTransform m_RectTransform;
+
     public string Name
     {
         get { return m_Text.text; }
     }
+
+    public float Height
+    {
+        get
+        {
+            if (m_RectTransform == null)
+            {
+                m_RectTransform = GetComponent<RectTransform>();
+            }
+            return m_RectTransform.rect.height;
+        }
+    }
     #endregion
 
     #region Unity API
+    protected void Awake()
+    {
+        m_RectTransform = GetComponent<RectTransform>();
+    }
     #endregion
 
     #region Public Methods

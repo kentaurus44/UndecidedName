@@ -81,7 +81,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     protected virtual T CreateItem()
     {
         T item = Instantiate<T>(m_InitialItem);
-        item.transform.parent = transform;
+        item.transform.SetParent(transform);
         return item;
     }
 
