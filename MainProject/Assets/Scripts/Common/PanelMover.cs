@@ -31,16 +31,14 @@ public class PanelMover : MonoBehaviour
     #region Unity API
     protected void Awake()
     {
-        m_CurrentTransform = GetComponent<RectTransform>();
-        m_InitalPosition = m_CurrentTransform.position;
-        m_HiddenPosition = m_InitalPosition + m_HiddenOffset;
-        m_CurrentTransform.position = m_HiddenPosition;
+        InitTransform();
     }
     #endregion
 
     #region Public Methods
     public void Show(System.Action onComplete = null)
     {
+        InitTransform();
         m_Tween = m_CurrentTransform.DOMove(m_InitalPosition, m_PanelTransitionTime);
 
         if (onComplete != null)
@@ -52,7 +50,9 @@ public class PanelMover : MonoBehaviour
 
     public void Hide(System.Action onComplete = null)
     {
+        InitTransform();
         m_Tween = m_CurrentTransform.DOMove(m_HiddenPosition, m_PanelTransitionTime);
+
         if (onComplete != null)
         {
             m_OnComplete = onComplete;
@@ -62,8 +62,9 @@ public class PanelMover : MonoBehaviour
 
     public void HideImmediately()
     {
+        InitTransform();
         Stop();
-        transform.position = m_HiddenPosition;
+        m_CurrentTransform.position = m_HiddenPosition;
     }
 
     public void Stop()
@@ -81,6 +82,17 @@ public class PanelMover : MonoBehaviour
         if (m_OnComplete != null)
         {
             m_OnComplete();
+        }
+    }
+
+    private void InitTransform()
+    {
+        if (m_CurrentTransform == null)
+        {
+            m_CurrentTransform = GetComponent<RectTransform>();
+            m_InitalPosition = m_CurrentTransform.position;
+            m_HiddenPosition = m_InitalPosition + m_HiddenOffset;
+            m_CurrentTransform.position = m_HiddenPosition;
         }
     }
     #endregion

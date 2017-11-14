@@ -14,6 +14,9 @@ public class InventoryDisplay : MonoBehaviour
 {
     #region Variables
     [SerializeField] protected Text m_Text;
+    
+    [Multiline]
+    [SerializeField] protected string m_DefaultText;
     #endregion
     
     #region Unity API
@@ -23,6 +26,11 @@ public class InventoryDisplay : MonoBehaviour
     public void Display(InventoryItem item)
     {
         m_Text.text = item.name;
+    }
+
+    public void Reset()
+    {
+        m_Text.text = m_DefaultText;
     }
     #endregion
 

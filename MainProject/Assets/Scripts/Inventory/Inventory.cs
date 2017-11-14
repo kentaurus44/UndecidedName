@@ -14,7 +14,7 @@ public class Inventory : Observer
 {
     #region Variables
     [SerializeField] protected InventoryDisplay m_Display;
-    [SerializeField] protected InventoryItem m_Items;
+    [SerializeField] protected InventoryPooling m_Items;
 
     private GameProgressTracker m_Progress;
     #endregion
@@ -26,16 +26,15 @@ public class Inventory : Observer
     public void Init(GameProgressTracker progress)
     {
         m_Progress = progress;
+        m_Items.RegisterObserver(this);
+        UpdateInventory();
     }
 
-    public void Show()
+    public void UpdateInventory()
     {
-        // Implement scrolling in
-    }
-
-    public void Hide()
-    {
-        // Implement scrolling out
+        List<GameProgressTracker.Item> items = m_Progress.GetObtainedItems();
+        m_Items.LoadItems(items);
+        m_Display.Reset();
     }
     #endregion
 
@@ -49,6 +48,7 @@ public class Inventory : Observer
     public override void OnNotify(ISubject subject, params object[] args)
     {
         base.OnNotify(subject, args);
+
         if (args[0] is sNotification)
         {
             sNotification sNotify = (sNotification) args[0];
@@ -58,7 +58,6 @@ public class Inventory : Observer
                 if (sNotify.key.CompareTo(InventoryItem.ON_SELECTED) == 0)
                 {
                     InventoryItem item = sNotify.args[0] as InventoryItem;
-
                     if (item != null)
                     {
                         m_Display.Display(item);

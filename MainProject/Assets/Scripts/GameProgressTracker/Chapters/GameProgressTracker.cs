@@ -63,6 +63,21 @@ public class GameProgressTracker : ScriptableObject
     #endregion
 
     #region Public Methods
+    public List<Item> GetObtainedItems()
+    {
+        List<Item> items = new List<Item>();
+
+        for (int i = 0; i < m_Items.Length; ++i)
+        {
+            if (m_Items[i].Obtained)
+            {
+                items.Add(m_Items[i]);
+            }
+        }
+
+        return items;
+    }
+
     public void Reset()
     {
         for (int i = 0; i < m_Events.Length; ++i)

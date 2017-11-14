@@ -16,6 +16,7 @@ public class BackpackController : MonoBehaviour
     [SerializeField] protected Button m_OpenBackpack;
     [SerializeField] protected Button m_CloseBackpack;
     [SerializeField] protected PanelMover m_PanelMover;
+    [SerializeField]protected Inventory m_Inventory;
     #endregion
 
     #region Unity API
@@ -41,15 +42,11 @@ public class BackpackController : MonoBehaviour
         m_PanelMover.Hide(DisablePanel);
     }
 
-    private void DisablePanel()
+    public void Init(GameProgressTracker progress)
     {
-        EnablePanel(false);
+        m_Inventory.Init(progress);
     }
 
-    private void EnablePanel(bool enable)
-    {
-        m_PanelMover.gameObject.SetActive(enable);
-    }
     #endregion
 
     #region Protected Methods
@@ -60,6 +57,15 @@ public class BackpackController : MonoBehaviour
     {
         m_OpenBackpack.gameObject.SetActive(!enable);
         m_CloseBackpack.gameObject.SetActive(enable);
+    }
+    private void DisablePanel()
+    {
+        EnablePanel(false);
+    }
+
+    private void EnablePanel(bool enable)
+    {
+        m_PanelMover.gameObject.SetActive(enable);
     }
     #endregion
 }

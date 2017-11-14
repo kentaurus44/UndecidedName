@@ -36,7 +36,7 @@ public class GameProgressManager : SingletonComponent<GameProgressManager>
     public void LoadGameProgress(GameProgressTracker progress)
     {
         m_Progress = progress;
-        m_Progress.Reset();
+        //m_Progress.Reset();
     }
 
     public void TriggerEvent(eEvent evt, string name)

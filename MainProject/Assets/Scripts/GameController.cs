@@ -19,6 +19,7 @@ public class GameController : Observer
     [SerializeField] protected CameraController m_CameraController;
     [SerializeField] protected PlayerActionController m_ActionController;
     [SerializeField] protected AreaNotification m_AreaNotification;
+    [SerializeField] protected BackpackController m_BackpackController;
 
     [Header("Story")]
     [SerializeField] protected Chapter m_Chapter;
@@ -59,6 +60,7 @@ public class GameController : Observer
         InitCamera();
         InitTransition();
         InitProgress();
+        InitBackpack();
     }
     #endregion
 
@@ -117,6 +119,11 @@ public class GameController : Observer
     private void InitProgress()
     {
         GameProgressManager.Instance.LoadGameProgress(m_Chapter.ProgressTracker);
+    }
+
+    private void InitBackpack()
+    {
+        m_BackpackController.Init(m_Chapter.ProgressTracker);
     }
     #endregion
 

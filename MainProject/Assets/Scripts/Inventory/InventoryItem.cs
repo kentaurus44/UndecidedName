@@ -27,9 +27,9 @@ public class InventoryItem : Subject, IPointerDownHandler
     #endregion
 
     #region Public Methods
-    public void LoadItem(string item)
+    public void LoadItem(GameProgressTracker.Item item)
     {
-        m_Text.text = item;
+        m_Text.text = item.ItemName;
     }
 
     public void OnPointerDown(PointerEventData data)
