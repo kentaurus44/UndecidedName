@@ -81,7 +81,7 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 86d36c43c53541d667100dc90b89cfba UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 83aba500f0f54272bbd220f25ef05378 Assembly-CSharp.dll:.AreaNotification
-e022128740281b5ea405269bf53814e0 Assembly-CSharp.dll:.GameController
+2ef3ab121636257046330bf0396fd242 Assembly-CSharp.dll:.GameController
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerActionController
 72b3ea41cb5b22a178f547759cba58a5 Assembly-CSharp.dll:.InventoryPooling
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
@@ -140,6 +140,7 @@ bff2b20d15a5db854a429ee53cfe48a2 Assembly-CSharp.dll:.CameraPerimeter
 2cb0fabb81db7e90e66138c2d4b0826e Assembly-CSharp.dll:.PlayerController
 6d37d9d4e51604b4e71c9f1e11f769bb Assembly-CSharp.dll:.PanelMover
 fdffde51dd1e5b5affc26e393db9b371 Assembly-CSharp.dll:.StaticInputController
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.FlowManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.GameProgressManager
 9365710e4c0d6cca12b6d82024dacae8 Assembly-CSharp.dll:.Missle
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Buttons
@@ -160,6 +161,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AppLauncher
 5e3c00883dfcf841a9ace7009cc309a1 Assembly-CSharp.dll:LevelLoader.LevelManager
 7b12805af9995639360c613ad9f1690e Assembly-CSharp.dll:.ButtonsController
 ae1ff064a1a5574e9bdcf216cea89df3 Assembly-CSharp.dll:.CameraController
@@ -188,10 +190,14 @@ f266a453cd4bfbe81533762a3e3589f4 DOTween.dll:DG.Tweening.Core.DOTweenComponent
 0869883b6445f616fc171fe47d5fa3a0 DOTween.dll:DG.Tweening.Core.DOTweenSettings
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:LevelLoader.View
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:CustomCamera.CameraManager
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MainMenuButtonTriggers
 a67759e2b2156ea168437565e05f1625 Assembly-CSharp.dll:Old.PlayerController
-e316155ef182557c017154e4a6d12363 Assembly-CSharp.dll:.Area
+86ef56525cec93468f479002a3a71b25 Assembly-CSharp.dll:.Area
 fdffde51dd1e5b5affc26e393db9b371 Assembly-CSharp.dll:.DirectionalInputController
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Shooter.ProjectileManager
 06afab570f2b8024dfe19eb7e3b86c1e Assembly-CSharp.dll:.Chapter
 90f0f577b060e3a6fcad63b11c5ae767 Assembly-CSharp.dll:TouchAction.BaseTouch
 e5ae9ef9685bb9635194c299a1519174 Assembly-CSharp.dll:.AreaTransition
+d27d23ad878ffad8fcca964824bc55d5 Assembly-CSharp.dll:.CharacterPooling
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CharacterNPC
+f4cf8b5ce0ecb45eb04c68b69a28f60d Assembly-CSharp.dll:.CharacterNPCInfo

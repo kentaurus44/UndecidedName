@@ -44,13 +44,11 @@ public class InventoryPooling : ObjectPool<InventoryItem>
     {
         item.UnregisterObserver(m_Observer);
         base.ReturnItem(item);
-        item.gameObject.SetActive(false);
     }
 
     protected override InventoryItem CreateItem()
     {
         InventoryItem item = base.CreateItem();
-        item.gameObject.SetActive(true);
         item.RegisterObserver(m_Observer);
         return item;
     }
@@ -58,7 +56,6 @@ public class InventoryPooling : ObjectPool<InventoryItem>
     protected override InventoryItem LoadFromHidden()
     {
         InventoryItem item = base.LoadFromHidden();
-        item.gameObject.SetActive(true);
         item.RegisterObserver(m_Observer);
         return item;
     }

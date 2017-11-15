@@ -17,6 +17,7 @@ public class Area : Observer
     [SerializeField] protected TransitionController.sTransitionParameters[] m_TransitionParameters;
     [SerializeField] protected bool m_InitialArea = false;
     [SerializeField] protected Transform m_CharacterInitalPosition;
+    [SerializeField] protected CharacterNPCInfo m_CharacterNPCInfo;
 
     public CameraPerimeter CameraPerimeter
     {
@@ -31,6 +32,11 @@ public class Area : Observer
     public Transform CharacterInitalPosition
     {
         get { return m_CharacterInitalPosition; }
+    }
+
+    public CharacterNPCInfo CharacterNPCInfo
+    {
+        get { return m_CharacterNPCInfo; }
     }
     #endregion
 

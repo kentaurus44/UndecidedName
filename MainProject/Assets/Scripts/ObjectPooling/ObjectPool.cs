@@ -74,6 +74,8 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     {
         m_UsedObject.Remove(item);
         m_HiddenPool.Add(item);
+        item.transform.SetParent(transform);
+        item.gameObject.SetActive(false);
     }
     #endregion
 
@@ -82,6 +84,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     {
         T item = Instantiate<T>(m_InitialItem);
         item.transform.SetParent(transform);
+        item.gameObject.SetActive(true);
         return item;
     }
 
@@ -89,6 +92,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     {
         T item = m_HiddenPool[0];
         m_HiddenPool.RemoveAt(0);
+        item.gameObject.SetActive(true);
         return item;
     }
     #endregion

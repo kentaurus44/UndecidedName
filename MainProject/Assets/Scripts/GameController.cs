@@ -20,12 +20,13 @@ public class GameController : Observer
     [SerializeField] protected PlayerActionController m_ActionController;
     [SerializeField] protected AreaNotification m_AreaNotification;
     [SerializeField] protected BackpackController m_BackpackController;
+    [SerializeField] protected CharacterPooling m_CharacterNPCPooling;
 
     [Header("Story")]
     [SerializeField] protected Chapter m_Chapter;
 
     private Area m_CurrentArea = null;
-
+    private Area m_PreviousArea = null;
     #endregion
 
     #region Unity API
@@ -51,6 +52,7 @@ public class GameController : Observer
         UnregisterComponent();
 
         m_CurrentArea = chapter.GetInitalArea();
+        m_CharacterNPCPooling.LoadItems(m_CurrentArea.CharacterNPCInfo);
 
         InitInput();
         InitAction();
@@ -134,9 +136,16 @@ public class GameController : Observer
             sNotification sNotify = (sNotification) args[0];
             if (subject is TransitionController)
             {
-                if (sNotify.key.CompareTo(TransitionController.ON_TRANSITION_COMPLETE) == 0)
+                if (sNotify.key.CompareTo(TransitionController.ON_TRANSITION_BEGIN) == 0)
                 {
+                    m_PreviousArea = m_CurrentArea;
                     m_CurrentArea = sNotify.args[0] as Area;
+
+                    m_CharacterNPCPooling.LoadItems(m_CurrentArea.CharacterNPCInfo);
+                }
+                else if (sNotify.key.CompareTo(TransitionController.ON_TRANSITION_COMPLETE) == 0)
+                {
+                    m_CharacterNPCPooling.UnloadItems(m_PreviousArea.CharacterNPCInfo);
                     m_CurrentArea.Play();
                 }
             }

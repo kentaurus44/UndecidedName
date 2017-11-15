@@ -46,9 +46,9 @@ public class TransitionController : SingletonComponent<TransitionController>
     {
         if (!m_IsTransitioning)
         {
-            NotifyObservers(new sNotification(ON_TRANSITION_BEGIN));
-            origin.Pause();
             m_TargetArea = paramters.TargetArea;
+            NotifyObservers(new sNotification(ON_TRANSITION_BEGIN, m_TargetArea));
+            origin.Pause();
 
             m_IsTransitioning = true;
             m_CameraController.SnapToEdge = false;
