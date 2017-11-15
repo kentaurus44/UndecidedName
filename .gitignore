@@ -1,8 +1,8 @@
-/Library/
-/Temp/
-/Obj/
-/Build/
-/Builds/
+/MainProject/[Ll]ibrary/
+/MainProject/[Tt]emp/
+/MainProject/[Oo]bj/
+/MainProject/[Bb]uild/
+/MainProject/[Bb]uilds/
 /Assets/AssetStoreTools*
 
 # Visual Studio 2015 cache directory
