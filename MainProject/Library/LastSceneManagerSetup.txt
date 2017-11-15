@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/ControlTest.unity
+- path: Assets/Scenes/AppLauncher.unity
   isLoaded: 1
   isActive: 1

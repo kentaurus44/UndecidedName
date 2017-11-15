@@ -36,18 +36,30 @@ namespace CustomCamera
 			get { return m_MainCamera; }
 		}
 
-		#endregion
+        #endregion
 
-		#region Unity API
-		#endregion
+        #region Unity API
+        protected override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(this);
+        }
+        #endregion
 
-		#region Public Methods
-		public override void Init()
+        #region Public Methods
+        public override void Init()
 		{
 			base.Init();
-			m_UICamera = LoadCamera(CUSTOM_UI_CAMERA, BASIC_UI_CAMERA);
-			m_MainCamera = LoadCamera(CUSTOM_MAIN_CAMERA, BASIC_MAIN_CAMERA);
-		}
+            if (m_UICamera == null)
+            {
+                m_UICamera = LoadCamera(CUSTOM_UI_CAMERA, BASIC_UI_CAMERA);
+            }
+
+            if (m_MainCamera == null)
+            {
+                m_MainCamera = LoadCamera(CUSTOM_MAIN_CAMERA, BASIC_MAIN_CAMERA);
+            }
+        }
 		#endregion
 
 		#region Protected Methods
